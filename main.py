@@ -10,7 +10,7 @@ TOKEN = os.getenv('DISCORD_TOKEN') # Manga botu için farklı bir token kullanac
 
 # AYARLAR
 TARGET_CHANNEL_ID = 1467881545699295274 # Manga öneri kanalı ID
-TARGET_ROLE_ID = 1467881975791485071 # Etiketlenecek rol ID
+TARGET_ROLE_ID = 1470102696152535186 # Etiketlenecek rol ID
 
 intents = discord.Intents.default()
 intents.message_content = True 
