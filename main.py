@@ -55,7 +55,7 @@ async def test_komutu(ctx):
     await ctx.send("⏳ Günlük paylaşım görevi manuel olarak başlatılıyor...")
     try:
         # Fonksiyonunun adı tam olarak neyse onu yazmalısın (Örn: daily_anime veya daily_recommendation)
-        await daily_recommendation() 
+        await daily_manga() 
         await ctx.send("✅ Görev başarıyla çalıştırıldı!")
     except Exception as e:
         await ctx.send(f"❌ Bir hata oluştu: {e}")
