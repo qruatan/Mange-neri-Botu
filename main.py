@@ -61,4 +61,6 @@ async def on_ready():
     if not daily_manga.is_running():
         daily_manga.start()
 
+print(f"Token yüklendi mi: {TOKEN is not None}")
+
 bot.run(TOKEN)
