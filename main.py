@@ -49,11 +49,16 @@ async def daily_manga():
             
             await channel.send(content=mention_text, embed=embed)
 
-@bot.command(name="mangatest")
-async def mangatest(ctx):
-    """Manuel manga testi"""
-    await daily_manga()
-    await ctx.send("✅ Manga önerisi gönderildi!")
+@bot.command(name="test")
+async def test_komutu(ctx):
+    # Bu komut 18:00'i beklemeden fonksiyonu manuel tetikler
+    await ctx.send("⏳ Günlük paylaşım görevi manuel olarak başlatılıyor...")
+    try:
+        # Fonksiyonunun adı tam olarak neyse onu yazmalısın (Örn: daily_anime veya daily_recommendation)
+        await daily_recommendation() 
+        await ctx.send("✅ Görev başarıyla çalıştırıldı!")
+    except Exception as e:
+        await ctx.send(f"❌ Bir hata oluştu: {e}")
 
 @bot.event
 async def on_ready():
