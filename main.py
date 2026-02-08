@@ -28,26 +28,29 @@ async def get_manga_recommendation():
                 return data['data']
             return None
 
-@tasks.loop(time=scheduled_time)
+@tasks.loop(time=manga_time)
 async def daily_manga():
-    channel = bot.get_channel(TARGET_CHANNEL_ID)
-    if channel:
-        manga = await get_manga_recommendation()
-        if manga:
-            mention_text = f"<@&{TARGET_ROLE_ID}> Yeni bir manga keşfetme vakti! 📖"
-            
-            embed = discord.Embed(
-                title=f"📖 {manga['title']}",
-                description=manga.get('synopsis', 'Açıklama bulunamadı.')[:400] + "...",
-                url=manga.get('url'),
-                color=discord.Color.green() # Manga için yeşil renk daha şık durabilir
-            )
-            embed.set_image(url=manga['images']['jpg']['large_image_url'])
-            embed.add_field(name="⭐ Puan", value=manga.get('score', 'N/A'), inline=True)
-            embed.add_field(name="📚 Bölüm Sayısı", value=manga.get('chapters', 'Devam Ediyor'), inline=True)
-            embed.set_footer(text="Keyifli okumalar!")
-            
-            await channel.send(content=mention_text, embed=embed)
+    channel = bot.get_channel(MANGA_CHAN)
+    data = await get_data('manga')
+    
+    if channel and data:
+        # Verileri güvenli şekilde alıyoruz (.get kullanımı)
+        title = data.get('title') or data.get('title_english') or "Başlık Bulunamadı"
+        url = data.get('url', 'https://myanimelist.net')
+        
+        images = data.get('images', {})
+        jpg_data = images.get('jpg', {})
+        img_url = jpg_data.get('large_image_url')
+
+        embed = discord.Embed(
+            title=f"📖 Günün Mangası: {title}", 
+            url=url, 
+            color=discord.Color.green()
+        )
+        if img_url:
+            embed.set_image(url=img_url)
+        
+        await channel.send(embed=embed)
 
 @bot.command(name="test")
 async def test_komutu(ctx):
